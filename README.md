@@ -1,77 +1,126 @@
-<h2 align="center">
-  Portfolio Website - v2.0<br/>
-  <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a>
-</h2>
-<div align="center">
-  <img alt="Demo" src="./Images/readme-img1.png" />
-</div>
+# My Portfolio
 
-<br/>
+Portfolio app: React frontend (repo root) + Django REST backend (backend/).
 
-<center>
+## How to start
 
-[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) &nbsp;
-[![forthebadge](https://forthebadge.com/images/badges/open-source.svg)](https://forthebadge.com) &nbsp;
-![GitHub Repo stars](https://img.shields.io/github/stars/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge) &nbsp;
-![GitHub forks](https://img.shields.io/github/forks/soumyajit4419/Portfolio?color=red&logo=github&style=for-the-badge)
+**Easy way**: double-click `start.bat` in this folder.
 
-</center>
+**Manual / first time**:
 
-<h3 align="center">
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Report Bug</a> &nbsp; &nbsp;
-    🔹
-    <a href="https://github.com/soumyajit4419/Portfolio/issues">Request Feature</a>
-</h3>
+```bat
+:: 1. Backend (port 8000)
+venv\Scripts\python.exe backend\manage.py runserver
 
-## TL;DR
+:: 2. Frontend (port 3000) - in a second terminal (repo root)
+npm start
+```
 
-You can fork this repo to modify and make changes of your own. Please give me proper credit by linking back to [Soumyajit4419](https://github.com/soumyajit4419/Portfolio). Thanks!
+Then open http://localhost:3000
 
-## Built With
+## First time setup
 
-My personal portfolio <a href="https://soumyajit.vercel.app/" target="_blank">soumyajit.tech</a> which features some of my github projects as well as my resume and technical skills.<br/>
+```bat
+venv\Scripts\python.exe backend\manage.py makemigrations
+venv\Scripts\python.exe backend\manage.py migrate
+venv\Scripts\python.exe backend\manage.py createsuperuser
+:: optional: seed 6 demo projects
+venv\Scripts\python.exe seed_projects.py
+```
 
-This project was built using these technologies.
+## API endpoints
 
-- React.js
-- Node.js
-- Express.js
-- CSS3
-- VsCode
-- Vercel
+| Method | URL                    | What it does                       |
+|--------|------------------------|------------------------------------|
+| GET    | `/api/projects/`       | Public list of projects            |
+| POST   | `/api/contact/`        | Public contact form (name, email, message) |
+| POST   | `/api/user/register/`  | Create account                     |
+| POST   | `/api/token/`          | Login                              |
+| POST   | `/api/token/refresh/`  | Refresh access token               |
+| POST   | `/api/token/logout/`   | Logout                             |
 
-## Features
+Admin panel: http://127.0.0.1:8000/admin (add/edit/delete projects, read contact messages).
+Use the superuser you created with `createsuperuser`.
 
-**📖 Multi-Page Layout**
+## Real email for the contact form
 
-**🎨 Styled with React-Bootstrap and Css with easy to customize colors**
+Messages are always saved to the DB. To also receive them by email:
 
-**📱 Fully Responsive**
+1. Create a Gmail **App Password** (enable 2-Step Verification, then
+   https://myaccount.google.com/apppasswords).
+2. Edit `backend/.env` and fill in:
 
-## Getting Started
+   ```
+   EMAIL_HOST_USER=youremail@gmail.com
+   EMAIL_HOST_PASSWORD=your-16-char-app-password
+   CONTACT_EMAIL_TO=youremail@gmail.com
+   ```
 
-Clone down this repository. You will need `node.js` and `git` installed globally on your machine.
+3. Restart the backend. When someone submits the contact form you get an email.
 
-## 🛠 Installation and Setup Instructions
+Other hosts: change `EMAIL_HOST` / `EMAIL_PORT` / `EMAIL_USE_TLS` in `.env`
+(e.g. `smtp.mailgun.org`, `smtp.zoho.com`, ...).
 
-1. Installation: `npm install`
+## Public vs private pages
 
-2. In the project directory, you can run: `npm start`
+- `/`, `/about`, `/project`, `/resume`, `/contact` are **public** — no login needed.
+- Login/Register still work but are optional (no content is locked behind them anymore).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-The page will reload if you make edits.
+## Notes
 
-## Usage Instructions
+- Projects are stored in the DB (see `backend/api/models.py`). Project images upload to
+  `backend/media/projects/` via the admin; the frontend loads them from `/media/...`.
+- To re-seed the demo projects run: `venv\Scripts\python.exe backend\seed_projects.py`
+- Frontend talks to `http://127.0.0.1:8000/api/` (see `src/api.js`).
+- `DEBUG = True` is set for local development. Set it to `False` and run
+  `collectstatic` before deploying.
 
-Open the project folder and Navigate to `/src/components/`. <br/>
-You will find all the components used and you can edit your information accordingly.
+## Deploy (what goes where)
 
-### Show your support
+You deploy **two separate things** — they are NOT one upload.
+`ahamd-dana.unaux.com` (InfinityFree) is PHP-only and **cannot run**
+Django or `npm`, so use the free tiers below instead:
 
-Give a ⭐ if you like this website!
+**1. Backend → Render (or Railway). Deploy the `backend/` folder.**
+- Root directory: `backend`, build: `./build.sh`,
+  start: `gunicorn backend.wsgi:application --bind 0.0.0.0:$PORT`
+  (`Procfile`, `render.yaml`, `runtime.txt` already added).
+- Env vars on the host: `SECRET_KEY` (generate), `DEBUG=False`,
+  `ALLOWED_HOSTS=your-backend.onrender.com`,
+  `FRONTEND_URL=https://your-frontend.vercel.app`,
+  plus `EMAIL_HOST_USER` / `EMAIL_HOST_PASSWORD` / `CONTACT_EMAIL_TO`.
+- After first deploy: create admin via Render Shell
+  (`python manage.py createsuperuser`), add projects in `/admin/`.
+- Note: free Render disk is ephemeral — uploaded project images in
+  `media/` disappear on redeploy. Use image URLs or external storage
+  for permanent images.
 
-<a href="https://www.buymeacoffee.com/soumyajit4419" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" height= "60px" width= "217px" ></a>
-"# portfolio" 
+**2. Frontend → Vercel (or Netlify). Deploy the repo root.**
+- Framework: Create React App, output: `build` (`vercel.json` added).
+- Env var on the host: `REACT_APP_API_URL=https://your-backend.onrender.com/api/`
+  (trailing slash required). Redeploy after setting it.
+- Local dev still works with no env var (falls back to
+  `http://127.0.0.1:8000/api/` — see `.env.example`).
+
+**Option: use your `ahmaddana.liveblog365.com` (profreehost) for the frontend.**
+- ProFreeHost is PHP/MySQL-only (no Python — confirmed on their forum), so the
+  Django backend MUST stay on Render. But the React `build/` output is plain
+  static files, which any PHP host can serve.
+- Best: in Vercel add `ahmaddana.liveblog365.com` as a custom domain, then add
+  the CNAME record Vercel shows you in your profreehost DNS panel. You get free
+  trusted SSL + auto-deploys from GitHub.
+- Fallback (no DNS access): rebuild with
+  `REACT_APP_API_URL=https://your-backend.onrender.com/api/`, then upload the
+  contents of `build/` (including `.htaccess` — SPA routing) via FTP/Monsta FTP
+  to the subdomain's folder. Note: subdomain SSL there is self-signed, so
+  browsers may show a warning — the Vercel CNAME route avoids this.
+- Either way set the backend env `FRONTEND_URL=https://ahmaddana.liveblog365.com`
+  and redeploy the backend.
+
+Order: deploy backend first → copy its URL → set it as
+`REACT_APP_API_URL` on Vercel → deploy frontend → set backend's
+`FRONTEND_URL` to the Vercel URL → redeploy backend.
+- TODO before going live: replace the placeholder email / Telegram link in
+  `src/components/Contact/Contact.js`, swap placeholder favicon/logo, and
+  set your real LinkedIn URL (the ones in the Footer currently point to invalid links).
+- The `passwords/` folder stays local — never commit it.

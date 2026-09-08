@@ -1,0 +1,10 @@
+# React SPA routing on Apache (profreehost / any shared host):
+# serve index.html for all non-file routes (/about, /project, ...)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

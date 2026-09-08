@@ -4,7 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import logo from "../Assets/logo.png";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // 💡 أضفنا useNavigate هنا
+import { useAuth } from "../context/AuthContext"; // 💡 استيراد سياق المصادقة الخاص بك
 import { CgGitFork } from "react-icons/cg";
 import { ImBlog } from "react-icons/im";
 import {
@@ -12,13 +13,20 @@ import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
+  AiOutlineLogin,
+  AiOutlineLogout,
 } from "react-icons/ai";
 
 import { CgFileDocument } from "react-icons/cg";
+import { MdOutlineMail } from "react-icons/md";
 
 function NavBar() {
   const [expand, updateExpanded] = useState(false);
   const [navColour, updateNavbar] = useState(false);
+
+  // 💡 استخراج حالة المستخدم ودالة تسجيل الخروج من الـ Context
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   function scrollHandler() {
     if (window.scrollY >= 20) {
@@ -29,6 +37,13 @@ function NavBar() {
   }
 
   window.addEventListener("scroll", scrollHandler);
+
+  // 💡 دالة معالجة الخروج عند الضغط على الزر
+  const handleLogout = async () => {
+    updateExpanded(false);
+    await logout(); // استدعاء دالة التدمير للتوكن والكوكي
+    navigate("/login"); // توجيهه لصفحة الدخول
+  };
 
   return (
     <Navbar
@@ -92,6 +107,28 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
 
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/contact"
+                onClick={() => updateExpanded(false)}
+              >
+                <MdOutlineMail style={{ marginBottom: "2px" }} /> Contact
+              </Nav.Link>
+            </Nav.Item>
+            {user && user.loggedIn ? (
+              <Nav.Item>
+                <Nav.Link onClick={handleLogout} style={{ cursor: "pointer" }}>
+                  <AiOutlineLogout style={{ marginBottom: "2px" }} /> Logout
+                </Nav.Link>
+              </Nav.Item>
+            ) : (
+              <Nav.Item>
+                <Nav.Link as={Link} to="/login" onClick={() => updateExpanded(false)}>
+                  <AiOutlineLogin style={{ marginBottom: "2px" }} /> Login
+                </Nav.Link>
+              </Nav.Item>
+            )}
             <Nav.Item>
               <Nav.Link
                 href="https://ahmad-dev33.github.io/blog/"

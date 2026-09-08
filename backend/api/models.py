@@ -1,0 +1,32 @@
+from django.db import models
+
+class Project(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to="projects/", blank=True, null=True)
+    gh_link = models.URLField(blank=True)
+    demo_link = models.URLField(blank=True)
+    tech_stack = models.CharField(max_length=500, blank=True, help_text="Comma-separated technologies")
+    featured = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["order", "-created_at"]
+
+    def __str__(self):
+        return self.title
+
+
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} ({self.email})"

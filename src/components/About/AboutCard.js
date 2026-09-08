@@ -11,9 +11,7 @@ function AboutCard() {
             Hi Everyone, I am <span className="purple">Ahmad Dana </span>
             from <span className="purple"> Damascus, SYRIA.</span>
             <br />
-            I am currently unemployed .
-            <br />
-            I'am corrently studing Maths and Computing at BAIT
+            I'm currently studying Maths and Computing at BAIT
             SUV.
             <br />
             <br />
