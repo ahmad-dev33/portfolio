@@ -39,5 +39,5 @@ urlpatterns = [
     path('api/contact/', CreateContactMessageView.as_view(), name='contact'),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG or getattr(settings, 'SERVE_MEDIA_LOCAL', False):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,15 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 django.setup()
 
 from api.models import Project
+from django.conf import settings
+
+# Demo image files may not exist on a fresh deploy (uploads are git-ignored).
+# Skip missing files so seeded projects don't get broken image URLs.
+def _clean(p):
+    img = p.get("image")
+    if img and not (settings.MEDIA_ROOT / img).exists():
+        p = {**p, "image": None}
+    return p
 
 projects = [
     {
@@ -57,6 +66,7 @@ projects = [
 
 created = 0
 for p in projects:
+    p = _clean(p)
     obj, was_created = Project.objects.get_or_create(title=p["title"], defaults=p)
     created += 1 if was_created else 0
 

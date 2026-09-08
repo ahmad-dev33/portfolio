@@ -162,6 +162,10 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media files (project images, resumes)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+# Serve user uploads through Django when True (needed on hosts without
+# object storage; fine for portfolio-scale traffic). Disable if you move
+# media to S3/Cloudinary later.
+SERVE_MEDIA_LOCAL = _env_bool('SERVE_MEDIA_LOCAL', True)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
