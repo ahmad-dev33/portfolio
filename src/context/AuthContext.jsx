@@ -8,13 +8,21 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // فحص الجلسة تلقائياً عند تحميل التطبيق لأول مرة
+        // فحص الجلسة تلقائياً عند تحميل التطبيق لأول مرة فقط إذا كان هناك جلسة نشطة سابقاً
         const checkAuth = async () => {
+            const hasSession = localStorage.getItem('hasSession');
+            if (!hasSession) {
+                setUser(null);
+                setLoading(false);
+                return;
+            }
+
             try {
                 const res = await api.post('token/refresh/');
                 setLocalAccessToken(res.data.access);
                 setUser({ loggedIn: true }); 
             } catch {
+                localStorage.removeItem('hasSession');
                 setUser(null);
             } finally {
                 setLoading(false);
@@ -29,6 +37,7 @@ export const AuthProvider = ({ children }) => {
             // ملاحظة: مسار الـ token/ هو المسار الافتراضي لـ SimpleJWT لتسجيل الدخول
             const res = await api.post('token/', { username, password });
             setLocalAccessToken(res.data.access);
+            localStorage.setItem('hasSession', 'true');
             setUser({ loggedIn: true });
             return { success: true };
         } catch (error) {
@@ -50,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             // نمسح البيانات من الواجهة في كل الأحوال للأمان
             setLocalAccessToken(null);
+            localStorage.removeItem('hasSession');
             setUser(null);
         }
     };

@@ -50,6 +50,7 @@ api.interceptors.response.use(
                 // إذا فشل تحديث التوكن (مثلاً انتهت صلاحية الـ Refresh token أيضاً)
                 accessToken = null; // مسح التوكن من الذاكرة
                 localStorage.removeItem("user"); // مسح حالة المستخدم
+                localStorage.removeItem("hasSession"); // مسح الجلسة النشطة
                 window.location.href = '/login'; // توجيهه لصفحة الدخول
             }
         }
