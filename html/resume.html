@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0513">
+  <meta name="description" content="Resume and CV of Ahmad Dana - download or view online.">
+  <title>Resume | Ahmad Dana</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="preloader" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <header class="site-nav" id="siteNav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html" aria-label="Home"><img src="assets/logo.png" alt="Ahmad Dana logo"></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+        <a href="index.html" data-page="home"><svg class="icon"><use href="assets/icons.svg#home"></use></svg> Home</a>
+        <a href="about.html" data-page="about"><svg class="icon"><use href="assets/icons.svg#user"></use></svg> About</a>
+        <a href="project.html" data-page="project"><svg class="icon"><use href="assets/icons.svg#projects"></use></svg> Projects</a>
+        <a href="resume.html" class="active" data-page="resume"><svg class="icon"><use href="assets/icons.svg#file"></use></svg> Resume</a>
+        <a href="contact.html" data-page="contact"><svg class="icon"><use href="assets/icons.svg#mail"></use></svg> Contact</a>
+        <a href="https://ahmad-dev33.github.io/blog/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="assets/icons.svg#blog"></use></svg> Blogs</a>
+        <a class="fork" href="https://github.com/ahmad-dev33/portfolio" target="_blank" rel="noopener noreferrer" aria-label="Star or fork this repository on GitHub">
+          <svg class="icon"><use href="assets/icons.svg#fork"></use></svg>
+          <svg class="icon"><use href="assets/icons.svg#star"></use></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section resume-section">
+      <div class="container resume">
+        <h1 class="section-heading">My <strong class="purple">Resume</strong></h1>
+        <p class="lead">A quick look at my experience and education.</p>
+        <p style="margin-top: 1.5rem;">
+          <a class="btn" href="assets/Ahmad_Dana_CV.pdf" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="assets/icons.svg#download"></use></svg> Download CV</a>
+        </p>
+
+        <object class="pdf-frame" data="assets/Ahmad_Dana_CV.pdf" type="application/pdf" aria-label="CV preview">
+          <div class="pdf-fallback">
+            <p>Your browser cannot display the PDF inline.</p>
+            <a class="btn" href="assets/Ahmad_Dana_CV.pdf" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="assets/icons.svg#download"></use></svg> Open the CV</a>
+          </div>
+        </object>
+
+        <p>
+          <a class="btn" href="assets/Ahmad_Dana_CV.pdf" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="assets/icons.svg#download"></use></svg> Download CV</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <h3>Designed and Developed by Ahmad Dana</h3>
+      <h3>Copyright © <span data-year></span></h3>
+      <ul class="social-row">
+        <li><a href="https://github.com/ahmad-dev33" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon"><use href="assets/icons.svg#github"></use></svg></a></li>
+        <li><a href="https://twitter.com/nami_astro" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X"><svg class="icon"><use href="assets/icons.svg#twitter"></use></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/ahmad-dana-755072372/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg class="icon"><use href="assets/icons.svg#linkedin"></use></svg></a></li>
+        <li><a href="https://www.instagram.com/ahmad_daxo" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="icon"><use href="assets/icons.svg#instagram"></use></svg></a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/site.js" defer></script>
+</body>
+</html>
