@@ -3,9 +3,8 @@
 (function () {
   "use strict";
 
-  /* Optional: set this to your Django API root (with trailing slash), e.g.
-     "https://your-backend.onrender.com/api/". Leave empty to use the mail fallback. */
-  var API_URL = "";
+  /* Formspree endpoint used by the contact form. */
+  var FORMSPREE_URL = "https://formspree.io/f/xwloadyv";
 
   function ready(fn) {
     if (document.readyState === "loading") {
@@ -171,6 +170,61 @@
       if (!document.hidden) draw();
     }
 
+    /* ---------- Live GitHub contribution calendar ---------- */
+    (function () {
+      var grid = document.getElementById("activityGrid");
+      var summary = document.getElementById("activitySummary");
+      if (!grid || !summary) return;
+
+      var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = window.setTimeout(function () {
+        if (controller) controller.abort();
+      }, 8000);
+
+      fetch(
+        "https://github-contributions-api.jogruber.de/v4/ahmad-dev33",
+        controller ? { signal: controller.signal } : {}
+      )
+        .then(function (res) {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          window.clearTimeout(timer);
+          var days = Array.isArray(data.contributions) ? data.contributions : [];
+          if (!days.length) throw new Error("No data");
+
+          var recent = days.slice(-371);
+          grid.textContent = "";
+          recent.forEach(function (d) {
+            var cell = document.createElement("i");
+            var label = d.date + ": " + d.count + " contribution" + (d.count === 1 ? "" : "s");
+            cell.className = "level-" + (d.level || 0);
+            cell.title = label;
+            cell.setAttribute("aria-label", label);
+            grid.appendChild(cell);
+          });
+
+          var year = new Date().getFullYear();
+          var total = data.total && typeof data.total[year] === "number"
+            ? data.total[year]
+            : days.reduce(function (n, d) { return n + d.count; }, 0);
+          var active = recent.filter(function (d) { return d.count > 0; }).length;
+          var last = null;
+          for (var i = recent.length - 1; i >= 0; i--) {
+            if (recent[i].count > 0) { last = recent[i]; break; }
+          }
+          summary.textContent =
+            total + " contributions in " + year +
+            " · " + active + " active days" +
+            (last ? " · last activity " + last.date : "");
+        })
+        .catch(function () {
+          window.clearTimeout(timer);
+          summary.textContent = "Live activity is unavailable right now — open the full graph on GitHub.";
+        });
+    })();
+
     /* ---------- Contact form ---------- */
     var form = document.getElementById("contactForm");
     if (form) {
@@ -190,36 +244,30 @@
           return;
         }
 
-        var name = form.elements.name.value.trim();
-        var email = form.elements.email.value.trim();
-        var body = form.elements.message.value.trim();
+        submitButton.disabled = true;
+        submitButton.textContent = "Sending...";
 
-        if (API_URL) {
-          submitButton.disabled = true;
-          submitButton.textContent = "Sending...";
-          fetch(API_URL.replace(/\/+$/, "") + "/contact/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name: name, email: email, message: body })
+        fetch(FORMSPREE_URL, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" }
+        })
+          .then(function (res) {
+            if (!res.ok) {
+              return res.text().then(function (text) {
+                throw new Error(text || "Request failed");
+              });
+            }
+            form.reset();
+            showMessage("Thanks! Your message was sent successfully.", true);
           })
-            .then(function (res) {
-              if (!res.ok) throw new Error("Request failed");
-              form.reset();
-              showMessage("Thanks! Your message was sent successfully.", true);
-            })
-            .catch(function () {
-              showMessage("Could not send the message. Please email me directly.", false);
-            })
-            .finally(function () {
-              submitButton.disabled = false;
-              submitButton.textContent = "Send Message";
-            });
-        } else {
-          var subject = encodeURIComponent("Portfolio contact from " + name);
-          var mailBody = encodeURIComponent(body + "\n\nFrom: " + name + "\nEmail: " + email);
-          window.location.href = "mailto:ahmad.dana963@gmail.com?subject=" + subject + "&body=" + mailBody;
-          showMessage("Your email app is opening with the message ready to send.", true);
-        }
+          .catch(function () {
+            showMessage("Could not send the message. Please email or call me directly.", false);
+          })
+          .finally(function () {
+            submitButton.disabled = false;
+            submitButton.textContent = "Send Message";
+          });
       });
     }
   });
