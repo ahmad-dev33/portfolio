@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0513">
+  <meta name="description" content="Get in touch with Ahmad Dana - software developer.">
+  <title>Contact | Ahmad Dana</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="preloader" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <header class="site-nav" id="siteNav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html" aria-label="Home"><img src="assets/logo.png" alt="Ahmad Dana logo"></a>
+      <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
+        <a href="index.html" data-page="home"><svg class="icon"><use href="assets/icons.svg#home"></use></svg> Home</a>
+        <a href="about.html" data-page="about"><svg class="icon"><use href="assets/icons.svg#user"></use></svg> About</a>
+        <a href="project.html" data-page="project"><svg class="icon"><use href="assets/icons.svg#projects"></use></svg> Projects</a>
+        <a href="resume.html" data-page="resume"><svg class="icon"><use href="assets/icons.svg#file"></use></svg> Resume</a>
+        <a href="contact.html" class="active" data-page="contact"><svg class="icon"><use href="assets/icons.svg#mail"></use></svg> Contact</a>
+        <a href="https://ahmad-dev33.github.io/blog/" target="_blank" rel="noopener noreferrer"><svg class="icon"><use href="assets/icons.svg#blog"></use></svg> Blogs</a>
+        <a class="fork" href="https://github.com/ahmad-dev33/portfolio" target="_blank" rel="noopener noreferrer" aria-label="Star or fork this repository on GitHub">
+          <svg class="icon"><use href="assets/icons.svg#fork"></use></svg>
+          <svg class="icon"><use href="assets/icons.svg#star"></use></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="section contact">
+      <div class="container">
+        <h1 class="section-heading">Get In <strong class="purple">Touch</strong></h1>
+        <div class="contact-grid" style="margin-top: 2rem;">
+          <div class="form-card">
+            <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label for="contactName">Name</label>
+                <input class="form-control" id="contactName" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+              </div>
+              <div class="form-group">
+                <label for="contactEmail">Email</label>
+                <input class="form-control" id="contactEmail" name="email" type="email" placeholder="Your email" autocomplete="email" required>
+              </div>
+              <div class="form-group">
+                <label for="contactMessage">Message</label>
+                <textarea class="form-control" id="contactMessage" name="message" placeholder="Write your message..." required></textarea>
+              </div>
+              <button class="btn" type="submit" id="submitButton">Send Message</button>
+            </form>
+          </div>
+
+          <div class="contact-info">
+            <h3>Or reach me directly:</h3>
+            <p><svg class="icon"><use href="assets/icons.svg#mail"></use></svg> &nbsp; ahmad.dana963@gmail.com</p>
+            <ul class="social-row">
+              <li><a href="https://github.com/ahmad-dev33" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon"><use href="assets/icons.svg#github"></use></svg></a></li>
+              <li><a href="https://www.linkedin.com/in/ahmad-dana-755072372/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg class="icon"><use href="assets/icons.svg#linkedin"></use></svg></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <h3>Designed and Developed by Ahmad Dana</h3>
+      <h3>Copyright © <span data-year></span></h3>
+      <ul class="social-row">
+        <li><a href="https://github.com/ahmad-dev33" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg class="icon"><use href="assets/icons.svg#github"></use></svg></a></li>
+        <li><a href="https://twitter.com/nami_astro" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X"><svg class="icon"><use href="assets/icons.svg#twitter"></use></svg></a></li>
+        <li><a href="https://www.linkedin.com/in/ahmad-dana-755072372/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg class="icon"><use href="assets/icons.svg#linkedin"></use></svg></a></li>
+        <li><a href="https://www.instagram.com/ahmad_daxo" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg class="icon"><use href="assets/icons.svg#instagram"></use></svg></a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/site.js" defer></script>
+</body>
+</html>
