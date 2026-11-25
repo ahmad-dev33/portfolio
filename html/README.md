@@ -28,21 +28,17 @@ Live URL: `https://ahmad-dev33.github.io/portfolio/` (it redirects to `/portfoli
 
 These two root files are the only additions outside `html/`; no existing React/backend files were changed.
 
-## Contact form
+## Contact form and phone
 
-GitHub Pages is static, so the form cannot write to the Django database by itself. By default it opens the visitor's email app with the message pre-filled.
+The contact form posts directly to Formspree (`https://formspree.io/f/xwloadyv`) using a small `fetch()` call in `js/site.js`. The form also has a plain HTML `action`/`method`, so it still works if JavaScript is disabled.
 
-To use the Django API instead, open `js/site.js` and set:
+The contact page shows the phone number **0991189602** as a `tel:` link, plus the email address.
 
-```js
-var API_URL = "https://your-backend.onrender.com/api/";
-```
-
-The backend must allow requests from the GitHub Pages domain via CORS.
+The Django backend is not involved in this static Pages version.
 
 ## Notes
 
 - Login/Register are intentionally omitted: they require the Django backend and JWT cookies, which a static Pages site cannot provide.
-- The GitHub contribution graph from `react-github-calendar` is replaced by a lightweight static card with a link to the real profile graph.
+- The GitHub contribution graph from `react-github-calendar` is replaced by a live, dependency-free grid loaded from a public contributions API. Each square has a tooltip with its date and count, and the summary shows the yearly total, active days and last activity date. A static grid remains as a fallback if the API is unavailable.
 - The CV preview uses the browser's native PDF viewer via `<object>` instead of `react-pdf`.
 - To update a project or a photo, edit the HTML here and copy new images into `assets/`. The original React app in `src/` is untouched.
