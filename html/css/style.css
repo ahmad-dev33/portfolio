@@ -356,6 +356,12 @@ main, .site-footer { position: relative; z-index: 1; }
 .activity-grid i:nth-child(5n) { background: #8c49b5; }
 .activity-grid i:nth-child(7n) { background: #c084f5; }
 .activity-grid i:nth-child(11n) { background: #2a1b3d; }
+.activity-grid i.level-0 { background: #2a1b3d; }
+.activity-grid i.level-1 { background: #5b2b76; }
+.activity-grid i.level-2 { background: #8c49b5; }
+.activity-grid i.level-3 { background: #b669df; }
+.activity-grid i.level-4 { background: #e0a6ff; }
+.activity-summary { margin: 1.2rem 0 0; color: var(--muted); font-size: .95rem; }
 
 /* ---------- Projects ---------- */
 .project-grid {
