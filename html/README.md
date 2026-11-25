@@ -18,14 +18,15 @@ This folder is a **plain HTML / CSS / JavaScript copy** of the React portfolio i
 
 ## Publishing
 
-The repository has a workflow at `.github/workflows/deploy-html.yml` that publishes **only this folder** to GitHub Pages.
+GitHub Pages' classic branch deployment only offers `/` or `/docs` as source folders, so the site is published from the repository root while all real pages stay in this `html/` folder:
 
-1. In the repository settings go to **Pages**.
-2. Under **Build and deployment → Source**, choose **GitHub Actions**.
-3. Push to `main` (or run the workflow manually). The site will be available at
-   `https://ahmad-dev33.github.io/portfolio/`.
+- `../index.html` (repository root) is a tiny redirect to `html/index.html`.
+- `../.nojekyll` (repository root) tells Pages to serve files as-is.
+- Pages settings: **Source = Deploy from a branch → main → /(root)**.
 
-GitHub Pages' classic branch deployment only offers `/` or `/docs` as source folders, which is why the small Actions workflow is used to publish this `html/` folder while keeping its name.
+Live URL: `https://ahmad-dev33.github.io/portfolio/` (it redirects to `/portfolio/html/`).
+
+These two root files are the only additions outside `html/`; no existing React/backend files were changed.
 
 ## Contact form
 
